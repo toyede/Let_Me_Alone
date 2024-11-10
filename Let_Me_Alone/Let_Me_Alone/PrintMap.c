@@ -10,11 +10,11 @@ void printGrid(int weights[HEIGHT][WIDTH][4]) {
 
             // 오른쪽 가중치 출력
             if (j < WIDTH - 1) {
-                if (weights[i][j][0] != 0) {
+                if (weights[i][j][0] != INF) {
                     printf("----%d----", weights[i][j][0]);
                 }
                 else {
-                    printf("         "); // 가중치가 0일 때는 빈 공간
+                    printf("         "); // 가중치가 INF일 때는 빈 공간
                 }
             }
         }
@@ -23,11 +23,11 @@ void printGrid(int weights[HEIGHT][WIDTH][4]) {
         // 세로 방향 막대기 출력
         if (i < HEIGHT - 1) {
             for (int j = 0; j < WIDTH; j++) {
-                if (weights[i][j][1] != 0) {
+                if (weights[i][j][1] != INF) {
                     printf(" |       ");
                 }
                 else {
-                    printf("         "); // 가중치가 0일 때는 빈 공간
+                    printf("         "); // 가중치가 INF일 때는 빈 공간
                 }
 
                 if (j < WIDTH - 1) {
@@ -38,11 +38,11 @@ void printGrid(int weights[HEIGHT][WIDTH][4]) {
 
             // 세로 방향 숫자와 빈 공간 출력
             for (int j = 0; j < WIDTH; j++) {
-                if (weights[i][j][1] != 0) {
+                if (weights[i][j][1] != INF) {
                     printf(" %d ", weights[i][j][1]);
                 }
                 else {
-                    printf("   "); // 가중치가 0일 때는 빈 공간
+                    printf("   "); // 가중치가 INF일 때는 빈 공간
                 }
 
                 // 가로 가중치 사이에 빈 공간 추가
@@ -54,11 +54,11 @@ void printGrid(int weights[HEIGHT][WIDTH][4]) {
 
             // 세로 방향 막대기 출력 (다음 셀 아래)
             for (int j = 0; j < WIDTH; j++) {
-                if (weights[i][j][1] != 0) {
+                if (weights[i][j][1] != INF) {
                     printf(" |       ");
                 }
                 else {
-                    printf("         "); // 가중치가 0일 때는 빈 공간
+                    printf("         "); // 가중치가 INF일 때는 빈 공간
                 }
 
                 if (j < WIDTH - 1) {
@@ -69,3 +69,4 @@ void printGrid(int weights[HEIGHT][WIDTH][4]) {
         }
     }
 }
+
