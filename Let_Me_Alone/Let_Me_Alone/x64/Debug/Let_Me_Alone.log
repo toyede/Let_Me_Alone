@@ -1,0 +1,3 @@
+﻿  WooYong.c
+D:\code\Let_Me_Alone\Let_Me_Alone\Let_Me_Alone\WooYong.c(15,15): warning C4048: 배열 첨자가 다릅니다. 'int (*)[7][4]'과(와) 'int [7][11][4]'
+  Let_Me_Alone.vcxproj -> D:\code\Let_Me_Alone\Let_Me_Alone\x64\Debug\Let_Me_Alone.exe

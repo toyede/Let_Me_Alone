@@ -127,7 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Mapinit.c" />
+    <ClCompile Include="PrintMap.c" />
     <ClCompile Include="WooYong.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="printMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
