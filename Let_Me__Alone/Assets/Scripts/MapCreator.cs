@@ -80,6 +80,8 @@ public class MapCreator : MonoBehaviour
         spriteObject.transform.localPosition = position;
 
         SpriteRenderer renderer = spriteObject.AddComponent<SpriteRenderer>();
+        // 연결 스프라이트를 셀 스프라이트보다 위에 표시하기 위해 sortingOrder를 높은 값으로 설정
+        renderer.sortingOrder = 1; // 셀보다 높은 레이어 설정
 
         if (weight == INF)
         {
