@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +9,9 @@ public class MapCreator : MonoBehaviour
     public int[,,] weights;
     public const int INF = -1;
 
-    public GameObject cellPrefab; //¼¿À» ³ªÅ¸³»´Â ÇÁ¸®ÆÕ
-    public Sprite[] weightSprites; // Å©±â°¡ 9ÀÎ ¹è¿­·Î °¡ÁßÄ¡¿¡ µû¶ó ½ºÇÁ¶óÀÌÆ® ÁöÁ¤
-    public Sprite emptySprite; // ¿¬°áÀÌ ¾ø´Â °æ¿ì¿¡ Ç¥½ÃÇÒ ½ºÇÁ¶óÀÌÆ®
+    public GameObject cellPrefab; //ì…€ì„ ë‚˜íƒ€ë‚´ëŠ” í”„ë¦¬íŒ¹
+    public Sprite[] weightSprites; // í¬ê¸°ê°€ 9ì¸ ë°°ì—´ë¡œ ê°€ì¤‘ì¹˜ì— ë”°ë¼ ìŠ¤í”„ë¼ì´íŠ¸ ì§€ì •
+    public Sprite emptySprite; // ì—°ê²°ì´ ì—†ëŠ” ê²½ìš°ì— í‘œì‹œí•  ìŠ¤í”„ë¼ì´íŠ¸
 
     void Start()
     {
@@ -64,10 +64,10 @@ public class MapCreator : MonoBehaviour
             {
                 GameObject cell = Instantiate(cellPrefab, new Vector3(j, -i, 0), Quaternion.identity, transform);
 
-                // ¿À¸¥ÂÊ ¿¬°áÀ» ¼³Á¤
+                // ì˜¤ë¥¸ìª½ ì—°ê²°ì„ ì„¤ì •
                 AddConnectionSprite(cell, weights[i, j, 0], new Vector3(0.5f, 0, 0));
 
-                // ¾Æ·¡ÂÊ ¿¬°áÀ» ¼³Á¤
+                // ì•„ë˜ìª½ ì—°ê²°ì„ ì„¤ì •
                 AddConnectionSprite(cell, weights[i, j, 1], new Vector3(0, -0.5f, 0));
             }
         }
@@ -80,16 +80,16 @@ public class MapCreator : MonoBehaviour
         spriteObject.transform.localPosition = position;
 
         SpriteRenderer renderer = spriteObject.AddComponent<SpriteRenderer>();
-        // ¿¬°á ½ºÇÁ¶óÀÌÆ®¸¦ ¼¿ ½ºÇÁ¶óÀÌÆ®º¸´Ù À§¿¡ Ç¥½ÃÇÏ±â À§ÇØ sortingOrder¸¦ ³ôÀº °ªÀ¸·Î ¼³Á¤
-        renderer.sortingOrder = 1; // ¼¿º¸´Ù ³ôÀº ·¹ÀÌ¾î ¼³Á¤
+        // ì—°ê²° ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì…€ ìŠ¤í”„ë¼ì´íŠ¸ë³´ë‹¤ ìœ„ì— í‘œì‹œí•˜ê¸° ìœ„í•´ sortingOrderë¥¼ ë†’ì€ ê°’ìœ¼ë¡œ ì„¤ì •
+        renderer.sortingOrder = 1; // ì…€ë³´ë‹¤ ë†’ì€ ë ˆì´ì–´ ì„¤ì •
 
         if (weight == INF)
         {
-            renderer.sprite = emptySprite; // ¿¬°áÀÌ ¾ø´Â °æ¿ì emptySprite »ç¿ë
+            renderer.sprite = emptySprite; // ì—°ê²°ì´ ì—†ëŠ” ê²½ìš° emptySprite ì‚¬ìš©
         }
         else if (weight > 0 && weight <= 9)
         {
-            renderer.sprite = weightSprites[weight - 1]; // °¡ÁßÄ¡¿¡ ¸Â´Â ½ºÇÁ¶óÀÌÆ® ¼³Á¤
+            renderer.sprite = weightSprites[weight - 1]; // ê°€ì¤‘ì¹˜ì— ë§ëŠ” ìŠ¤í”„ë¼ì´íŠ¸ ì„¤ì •
         }
     }
 }

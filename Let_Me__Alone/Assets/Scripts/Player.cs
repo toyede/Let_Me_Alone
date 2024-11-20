@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    //public int currentDay = 1; GameSystem¿¡¼­ °ü¸®
+    //public int currentDay = 1; GameSystemì—ì„œ ê´€ë¦¬
     private int daysToWait = 0;
     private Vector3 targetPosition;
     private bool isMoving = false;
@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     {
         mapCreator = FindObjectOfType<MapCreator>();
 
-        // Áß¾Ó À§Ä¡·Î ÃÊ±â ¼³Á¤
+        // ì¤‘ì•™ ìœ„ì¹˜ë¡œ ì´ˆê¸° ì„¤ì •
         currentX = gridWidth / 2;
         currentY = gridHeight / 2;
         transform.position = new Vector3(currentX, -currentY, 0);
@@ -39,21 +39,21 @@ public class Player : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.up, 3);    // À§ÂÊ
-        if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.down, 1);  // ¾Æ·¡ÂÊ
-        if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left, 2);  // ¿ŞÂÊ
-        if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right, 0); // ¿À¸¥ÂÊ
+        if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.up, 3);    // ìœ„ìª½
+        if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.down, 1);  // ì•„ë˜ìª½
+        if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left, 2);  // ì™¼ìª½
+        if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right, 0); // ì˜¤ë¥¸ìª½
     }
 
     private void Move(Vector3 direction, int weightIndex)
     {
-        // ¼±ÅÃÇÑ ¹æÇâÀÇ °¡ÁßÄ¡ È®ÀÎ
+        // ì„ íƒí•œ ë°©í–¥ì˜ ê°€ì¤‘ì¹˜ í™•ì¸
         int weight = mapCreator.weights[currentY, currentX, weightIndex];
 
-        // °¡ÁßÄ¡°¡ INFÀÎ °æ¿ì ÀÌµ¿ÇÏÁö ¾ÊÀ½
+        // ê°€ì¤‘ì¹˜ê°€ INFì¸ ê²½ìš° ì´ë™í•˜ì§€ ì•ŠìŒ
         if (weight == MapCreator.INF)
         {
-            Debug.Log("ÀÌµ¿ ºÒ°¡: ¿¬°áÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log("ì´ë™ ë¶ˆê°€: ì—°ê²°ì´ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -62,9 +62,9 @@ public class Player : MonoBehaviour
             daysToWait = weight;
             targetPosition = transform.position + direction;
             isMoving = true;
-            Debug.Log($"ÀÌµ¿ ½ÃÀÛ: {daysToWait}ÀÏ ÈÄ ÀÌµ¿");
+            Debug.Log($"ì´ë™ ì‹œì‘: {daysToWait}ì¼ í›„ ì´ë™");
 
-            // ÀÌµ¿ ¿Ï·á ÈÄ ÇöÀç À§Ä¡ ¾÷µ¥ÀÌÆ®
+            // ì´ë™ ì™„ë£Œ í›„ í˜„ì¬ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
             currentX += (int)direction.x;
             currentY -= (int)direction.y;
         }
@@ -75,13 +75,13 @@ public class Player : MonoBehaviour
         if (daysToWait > 0)
         {
             daysToWait--;
-            Debug.Log($"³²Àº ´ë±â ÀÏ¼ö {daysToWait}");
+            Debug.Log($"ë‚¨ì€ ëŒ€ê¸° ì¼ìˆ˜ {daysToWait}");
         }
         else
         {
             isMoving = false;
             transform.position = targetPosition;
-            Debug.Log($"ÀÌµ¿ ¿Ï·á. ÇöÀç À§Ä¡: {transform.position}");
+            Debug.Log($"ì´ë™ ì™„ë£Œ. í˜„ì¬ ìœ„ì¹˜: {transform.position}");
         }
     }
 }
