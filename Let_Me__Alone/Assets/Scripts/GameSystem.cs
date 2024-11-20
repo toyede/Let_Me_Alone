@@ -34,7 +34,7 @@ public class GameSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
         {
             NextDay();
-            UpdateGameState(); // 상태를 업데이트
+            Invoke("UpdateGameState", 0.2f); // 상태를 업데이트
         }
     }
 }
