@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,30 +11,30 @@ public class GameSystem : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
-        Debug.Log($"°ÔÀÓ ½ÃÀÛ! Ã¹ ¹øÂ° ³¯: Day {currentDay}");
+        Debug.Log($"ê²Œì„ ì‹œì‘! ì²« ë²ˆì§¸ ë‚ : Day {currentDay}");
     }
 
     public void NextDay()
     {
         currentDay++;
-        Debug.Log($"Day {currentDay} ½ÃÀÛ!");
+        Debug.Log($"Day {currentDay} ì‹œì‘!");
 
-        // ÇÃ·¹ÀÌ¾î¿Í Àû »óÅÂ ¾÷µ¥ÀÌÆ®
+        // í”Œë ˆì´ì–´ì™€ ì  ìƒíƒœ ì—…ë°ì´íŠ¸
     }
 
     public void UpdateGameState()
     {
-        // »óÅÂ ¾÷µ¥ÀÌÆ® (ÇÃ·¹ÀÌ¾î, Àû µî)
+        // ìƒíƒœ ì—…ë°ì´íŠ¸ (í”Œë ˆì´ì–´, ì  ë“±)
         player.UpdateState();
     }
 
     void Update()
     {
-        // Å° ÀÔ·ÂÀ¸·Î ÇÏ·ç°¡ Áö³ª°¨ ('N'Å°¸¦ ´­·¯ ´ÙÀ½ ³¯·Î ÀÌµ¿)
+        // í‚¤ ì…ë ¥ìœ¼ë¡œ í•˜ë£¨ê°€ ì§€ë‚˜ê° ('N'í‚¤ë¥¼ ëˆŒëŸ¬ ë‹¤ìŒ ë‚ ë¡œ ì´ë™)
         if (Input.GetKeyDown(KeyCode.N))
         {
             NextDay();
-            UpdateGameState(); // »óÅÂ¸¦ ¾÷µ¥ÀÌÆ®
+            UpdateGameState(); // ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸
         }
     }
 }
