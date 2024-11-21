@@ -7,17 +7,25 @@ public class MapCreator : MonoBehaviour
     public int width = 11;
     public int height = 7;
     public int[,,] weights;
-    public const int INF = -1;
+    public const int INF = 99999;
 
     public GameObject cellPrefab; //셀을 나타내는 프리팹
     public Sprite[] weightSprites; // 크기가 9인 배열로 가중치에 따라 스프라이트 지정
     public Sprite emptySprite; // 연결이 없는 경우에 표시할 스프라이트
+
+
+    public int[,] shortestPaths;
+    public (int, int)[,] nextNode;
+
 
     void Start()
     {
         weights = new int[height, width, 4];
         InitializeWeights();
         CreateGrid();
+
+        //플로이드워샬
+        CalculateFloydWarshall();
     }
 
     void InitializeWeights()
@@ -91,5 +99,82 @@ public class MapCreator : MonoBehaviour
         {
             renderer.sprite = weightSprites[weight - 1]; // 가중치에 맞는 스프라이트 설정
         }
+    }
+
+    public void CalculateFloydWarshall()
+    {
+        int n = width * height;
+        shortestPaths = new int[n,n];
+        nextNode = new (int, int)[n,n];
+
+        //초기화
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                if (i == j)
+                    shortestPaths[i, j] = 0;
+                else
+                    shortestPaths[i, j] = INF;
+                nextNode[i, j] = (-1, -1);
+            }
+        }
+
+        //가중치 입력
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int currentNode = y * width + x;
+
+                for (int dir = 0; dir < 4; dir++)
+                {
+                    int nx = x + (dir == 0 ? 1 : dir == 2 ? -1 : 0);
+                    int ny = y + (dir == 1 ? 1 : dir == 3 ? -1 : 0);
+
+                    if (nx >= 0 && ny >= 0 && nx < width && ny < height)
+                    {
+                        int neighborNode = ny * width + nx;
+                        int weight = weights[y, x, dir];
+
+                        if (weight != INF)
+                        {
+                            shortestPaths[currentNode, neighborNode] = weight;
+                            nextNode[currentNode, neighborNode] = (nx, ny);
+                        }
+                    }
+                }
+            }
+        }
+
+        //플로이드워샬
+        for (int k = 0; k < n; k++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (shortestPaths[i, k] != INF && shortestPaths[k, j] != INF)
+                    {
+                        int newDist = shortestPaths[i, k] + shortestPaths[k, j];
+                        if (newDist < shortestPaths[i, j])
+                        {
+                            shortestPaths[i, j] = newDist;
+                            nextNode[i, j] = nextNode[i, k];
+                        }
+                    }
+                }
+            }
+        }
+
+        /* 플로이드워샬 결과 출력
+        for (int i = 0; i < shortestPaths.GetLength(0); i++)
+        {
+            for (int j = 0; j < shortestPaths.GetLength(1); j++)
+            {
+                Debug.Log($"shortestPaths[{i}, {j}] = {shortestPaths[i, j]}");
+            }
+        }
+        */
     }
 }

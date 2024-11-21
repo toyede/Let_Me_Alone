@@ -84,4 +84,13 @@ public class Player : MonoBehaviour
             Debug.Log($"이동 완료. 현재 위치: {transform.position}");
         }
     }
+
+    public int GetCurrentX()
+    {
+        return currentX;
+    }
+    public int GetCurrentY()
+    {
+        return currentY;
+    }
 }
