@@ -6,12 +6,14 @@ public class GameSystem : MonoBehaviour
 {
     public int currentDay = 1;
     public Player player;
+    public  Enemy enemy;
     private bool isstateUpdateEnd = true;
     
 
     void Start()
     {
         player = FindObjectOfType<Player>();
+        enemy = FindObjectOfType<Enemy>();
         Debug.Log($"게임 시작! 첫 번째 날: Day {currentDay}");
     }
 
@@ -28,6 +30,8 @@ public class GameSystem : MonoBehaviour
         // 상태 업데이트 (플레이어, 적 등)
         // 특정 컴퓨터에서 이게 씹히는 현상 발생
         player.UpdateState();
+        enemy.UpdateState();
+        enemy.CompleteMove();
 
         yield return new WaitForSeconds(0.2f);
         isstateUpdateEnd = true;
