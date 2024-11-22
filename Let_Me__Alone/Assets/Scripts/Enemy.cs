@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
         if(daysToWait > 0)
         {
             daysToWait--;
-            Debug.Log($"Àû ´ë±â: ³²Àº ´ë±â ÀÏ¼ö {daysToWait}");
+            Debug.Log($"ì  ëŒ€ê¸°: ë‚¨ì€ ëŒ€ê¸° ì¼ìˆ˜ {daysToWait}");
         }
         else if(!isMoving)
         {
@@ -49,10 +49,10 @@ public class Enemy : MonoBehaviour
 
         int targetNode = targetY * mapCreator.width + targetX;
 
-        //¾È¶ß±æ °£ÀıÈ÷ ±âµµÇÏ¼À
+        //ì•ˆëœ¨ê¸¸ ê°„ì ˆíˆ ê¸°ë„í•˜ì…ˆ
         if (mapCreator.shortestPaths[startNode, targetNode] == MapCreator.INF)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î¿¡°Ô °¥ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("í”Œë ˆì´ì–´ì—ê²Œ ê°ˆ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -63,10 +63,10 @@ public class Enemy : MonoBehaviour
             targetPosition = new Vector3(nextX, -nextY, 0);
             isMoving = true;
 
-            // À§Ä¡ ¾÷µ¥ÀÌÆ®
+            // ìœ„ì¹˜ ì—…ë°ì´íŠ¸
             currentX = nextX;
             currentY = nextY;
-            Debug.Log($"Àû ÀÌµ¿ ½ÃÀÛ: {daysToWait}ÀÏ ÈÄ ÀÌµ¿ ¿¹Á¤");
+            Debug.Log($"ì  ì´ë™ ì‹œì‘: {daysToWait}ì¼ í›„ ì´ë™ ì˜ˆì •");
         }
     }
     public void CompleteMove()
@@ -76,14 +76,14 @@ public class Enemy : MonoBehaviour
             transform.position = targetPosition;
             isMoving = false;
 
-            Debug.Log($"Àû ÀÌµ¿ ¿Ï·á: ÇöÀç À§Ä¡ ({currentX}, {currentY})");
+            Debug.Log($"ì  ì´ë™ ì™„ë£Œ: í˜„ì¬ ìœ„ì¹˜ ({currentX}, {currentY})");
 
-            // ¸ñÇ¥ À§Ä¡¿¡ µµ´ŞÇÏ¸é »õ ¸ñÇ¥ ¼³Á¤
+            // ëª©í‘œ ìœ„ì¹˜ì— ë„ë‹¬í•˜ë©´ ìƒˆ ëª©í‘œ ì„¤ì •
             if (currentX == targetX && currentY == targetY)
             {
                 targetX = player.GetCurrentX();
                 targetY = player.GetCurrentY();
-                Debug.Log($"»õ ¸ñÇ¥ ¼³Á¤: ÇÃ·¹ÀÌ¾î À§Ä¡ ({targetX}, {targetY})");
+                Debug.Log($"ìƒˆ ëª©í‘œ ì„¤ì •: í”Œë ˆì´ì–´ ìœ„ì¹˜ ({targetX}, {targetY})");
             }
         }
     }
