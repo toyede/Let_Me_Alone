@@ -93,4 +93,12 @@ public class Player : MonoBehaviour
     {
         return currentY;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy")) // 적 태그 확인
+        {
+            FindObjectOfType<GameSystem>().EndGame(); // 게임 종료
+        }
+    }
 }

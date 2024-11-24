@@ -46,6 +46,16 @@ public class GameSystem : MonoBehaviour
         isstateUpdateEnd = true;
     }
 
+    public void EndGame()
+    {
+        Debug.Log("게임 종료! 적이 플레이어를 잡았습니다.");
+        if(player != null)
+        {
+            Destroy(player.gameObject);
+        }
+        Time.timeScale = 0; // 게임 멈춤
+    }
+
     void Update()
     {
         // 키 입력으로 하루가 지나감 ('N'키를 눌러 다음 날로 이동)
