@@ -99,6 +99,11 @@ public class MapCreator : MonoBehaviour
         {
             renderer.sprite = weightSprites[weight - 1]; // 가중치에 맞는 스프라이트 설정
         }
+        // 아래쪽 연결이라면 90도 회전 추가
+        if (position == new Vector3(0, -0.5f, 0)) // 아래쪽 연결 위치
+        {
+            spriteObject.transform.localRotation = Quaternion.Euler(0, 0, 90); // Z축 기준 90도 회전
+        }
     }
 
     public void CalculateFloydWarshall()
