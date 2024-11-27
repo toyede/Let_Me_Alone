@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     private MapCreator mapCreator;
     private int currentX, currentY;
 
+    public GameObject arrowPrefab;
+    private GameObject currentArrow;
+
     private void Start()
     {
         mapCreator = FindObjectOfType<MapCreator>();
@@ -57,6 +60,14 @@ public class Player : MonoBehaviour
             return;
         }
 
+        
+        currentArrow = Instantiate(arrowPrefab, transform.position + direction * 0.3f, Quaternion.identity);
+
+        if (direction == Vector3.up) currentArrow.transform.rotation = Quaternion.Euler(0, 0, -90);
+        else if (direction == Vector3.down) currentArrow.transform.rotation = Quaternion.Euler(0, 0, 90);
+        else if (direction == Vector3.left) currentArrow.transform.rotation = Quaternion.Euler(0, 0, 0);
+        else if (direction == Vector3.right) currentArrow.transform.rotation = Quaternion.Euler(0, 0, 180);
+
         if (weight > 0)
         {
             daysToWait = weight;
@@ -67,6 +78,15 @@ public class Player : MonoBehaviour
             // 이동 완료 후 현재 위치 업데이트
             currentX += (int)direction.x;
             currentY -= (int)direction.y;
+        }
+    }
+
+    private void DestroyArrow()
+    {
+        if (currentArrow != null)
+        {
+            Destroy(currentArrow);
+            currentArrow = null;
         }
     }
 
@@ -81,6 +101,7 @@ public class Player : MonoBehaviour
         {
             isMoving = false;
             transform.position = targetPosition;
+            DestroyArrow();
             Debug.Log($"이동 완료. 현재 위치: {transform.position}");
         }
     }

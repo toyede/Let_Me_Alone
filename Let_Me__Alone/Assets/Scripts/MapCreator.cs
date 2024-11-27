@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class MapCreator : MonoBehaviour
 {
@@ -99,10 +101,34 @@ public class MapCreator : MonoBehaviour
         {
             renderer.sprite = weightSprites[weight - 1]; // 가중치에 맞는 스프라이트 설정
         }
-        // 아래쪽 연결이고 weight가 INF가 아닌 경우 회전 추가
-        if (position == new Vector3(0, -0.5f, 0) && weight != INF) // 아래쪽 연결의 위치 & INF가 아님
+
+        //weight가 INF가 아닌 경우
+        if (weight != INF)
         {
-            spriteObject.transform.localRotation = Quaternion.Euler(0, 0, 90); // Z축 기준 90도 회전
+            GameObject textObject = new GameObject("WeightText");
+
+            //오른쪽 연결일 경우
+            if (position == new Vector3(0.5f, 0, 0))
+            {
+                textObject.transform.parent = spriteObject.transform;
+                textObject.transform.localPosition = new Vector3(0, 0.2f, 0); //텍스트를 위쪽에 출력
+            }
+
+            // 아래쪽 연결일 경우
+            if (position == new Vector3(0, -0.5f, 0)) // 아래쪽 연결의 위치 & INF가 아님
+            {
+                spriteObject.transform.localRotation = Quaternion.Euler(0, 0, 90);  //회전 추가 (Z축 기준 90도 회전)
+                textObject.transform.parent = spriteObject.transform;
+                textObject.transform.localPosition = new Vector3(0, -0.2f ,0);       //텍스트를 오른쪽에 출력
+            }
+        
+            TextMeshPro text = textObject.AddComponent<TextMeshPro>();
+            text.text = weight.ToString();
+
+            text.fontSize = 2;
+            text.color = Color.black;
+            text.alignment = TextAlignmentOptions.Center;
+            text.sortingOrder = 2;
         }
     }
 
