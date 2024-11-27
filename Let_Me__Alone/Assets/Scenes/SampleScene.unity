@@ -216,16 +216,16 @@ MonoBehaviour:
   height: 7
   cellPrefab: {fileID: 3339963956987905257, guid: 90a3a0ff1facb73409f5d6bca341ba21, type: 3}
   weightSprites:
-  - {fileID: 169304523, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: -170767578, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: 267529599, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: 114801817, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: -714343342, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: 158088726, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: 546673810, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: 1014859182, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  - {fileID: -1076527001, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
-  emptySprite: {fileID: 1634565284, guid: 3b26f6d3630d3c44e971642c61f3970d, type: 3}
+  - {fileID: 21300000, guid: 436816625015ca94e97031c8863cf8ad, type: 3}
+  - {fileID: 21300000, guid: 436816625015ca94e97031c8863cf8ad, type: 3}
+  - {fileID: 21300000, guid: 436816625015ca94e97031c8863cf8ad, type: 3}
+  - {fileID: 21300000, guid: ff314c60bb5fbf74ebcc778406d2c64b, type: 3}
+  - {fileID: 21300000, guid: ff314c60bb5fbf74ebcc778406d2c64b, type: 3}
+  - {fileID: 21300000, guid: ff314c60bb5fbf74ebcc778406d2c64b, type: 3}
+  - {fileID: 21300000, guid: 593341a243441364ca501f72baa90dd0, type: 3}
+  - {fileID: 21300000, guid: 593341a243441364ca501f72baa90dd0, type: 3}
+  - {fileID: 21300000, guid: 593341a243441364ca501f72baa90dd0, type: 3}
+  emptySprite: {fileID: 21300000, guid: 1534ebc913d5ee34584e1a250a60ca2f, type: 3}
 --- !u!1 &263033541
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,6 +551,7 @@ GameObject:
   - component: {fileID: 1182939128}
   - component: {fileID: 1182939129}
   - component: {fileID: 1182939130}
+  - component: {fileID: 1182939131}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -599,8 +600,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 799611419, guid: 38ec8882a59cd974089a92a1c9ba9311, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -702,6 +703,27 @@ CapsuleCollider2D:
   m_Offset: {x: 0.024442434, y: 0.05653125}
   m_Size: {x: 0.69039583, y: 0.69039583}
   m_Direction: 0
+--- !u!95 &1182939131
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182939124}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e82464feeb7cbda499f062f632f11d35, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1661156012
 GameObject:
   m_ObjectHideFlags: 0
