@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
 
     public void UpdateState()
     {
-        if(daysToWait > 0)
+        if(daysToWait > 1)
         {
             daysToWait--;
             Debug.Log($"적 대기: 남은 대기 일수 {daysToWait}");
@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
     }
     public void CompleteMove()
     {
-        if (isMoving && daysToWait <= 0)
+        if (isMoving && daysToWait <= 1)
         {
             transform.position = targetPosition;
             isMoving = false;

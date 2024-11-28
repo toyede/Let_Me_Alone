@@ -641,6 +641,7 @@ MonoBehaviour:
   moveSpeed: 5
   gridWidth: 11
   gridHeight: 7
+  arrowPrefab: {fileID: 1288819983217551338, guid: 7de306a0ccbf76f46a320be99f7ad664, type: 3}
 --- !u!50 &1182939129
 Rigidbody2D:
   serializedVersion: 4

@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
 
     public void UpdateState()
     {
-        if (daysToWait > 0)
+        if (daysToWait > 1)
         {
             daysToWait--;
             Debug.Log($"남은 대기 일수 {daysToWait}");
