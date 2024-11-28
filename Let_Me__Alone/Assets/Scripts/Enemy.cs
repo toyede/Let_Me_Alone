@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 5f;
     private MapCreator mapCreator;
     private Player player;
+    private LineRenderer lineRenderer;
 
     private int currentX, currentY;
     private int targetX, targetY;
@@ -27,8 +28,20 @@ public class Enemy : MonoBehaviour
         targetX = player.GetCurrentX();
         targetY = player.GetCurrentY();
         targetPosition = transform.position;
+
+        InitLineRenderer();
     }
 
+    private void InitLineRenderer()
+    {
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = new Color(1, 0, 0, 0.5f);
+        lineRenderer.endColor = new Color(1, 0, 0, 0.5f);
+        lineRenderer.sortingOrder = 5;
+    }
 
     public void UpdateState()
     {
@@ -67,6 +80,8 @@ public class Enemy : MonoBehaviour
             currentX = nextX;
             currentY = nextY;
             Debug.Log($"적 이동 시작: {daysToWait}일 후 이동 예정");
+
+            UpdatePathLine();
         }
     }
     public void CompleteMove()
@@ -84,8 +99,48 @@ public class Enemy : MonoBehaviour
                 targetX = player.GetCurrentX();
                 targetY = player.GetCurrentY();
                 Debug.Log($"새 목표 설정: 플레이어 위치 ({targetX}, {targetY})");
+                
+                UpdatePathLine();
             }
         }
+    }
+
+    private void UpdatePathLine()
+    {
+        int startNode = currentY * mapCreator.width + currentX;
+        int targetNode = targetY * mapCreator.width + targetX;
+
+        if (mapCreator.shortestPaths[startNode, targetNode] == MapCreator.INF)
+        {
+            lineRenderer.positionCount = 0; // LineRenderer 초기화
+            return;
+        }
+
+        List<Vector3> pathPoints = new List<Vector3>();
+        int currentNode = startNode;
+
+        while (currentNode != targetNode)
+        {
+            int x = currentNode % mapCreator.width;
+            int y = currentNode / mapCreator.width;
+
+            pathPoints.Add(new Vector3(x, -y, 0));
+
+            (int nextX, int nextY) = mapCreator.nextNode[currentNode, targetNode];
+
+            if (nextX == -1 && nextY == -1)
+            {
+                lineRenderer.positionCount = 0; // LineRenderer 초기화
+                return;
+            }
+
+            currentNode = nextY * mapCreator.width + nextX;
+        }
+
+        pathPoints.Add(new Vector3(targetX, -targetY, 0));
+
+        lineRenderer.positionCount = pathPoints.Count;
+        lineRenderer.SetPositions(pathPoints.ToArray());
     }
 
 }

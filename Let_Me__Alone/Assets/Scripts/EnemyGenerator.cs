@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemyGenerator : MonoBehaviour
 {
@@ -8,10 +9,19 @@ public class EnemyGenerator : MonoBehaviour
     public int spawnInterval = 20;  //적 생성 간격
     private GameSystem gameSystem;  
     private int nextSpawnDay = 20;  //다음 적 생성일
+    
+    private TextMeshProUGUI enemySpawnText;
 
     void Start()
     {
         gameSystem = FindObjectOfType<GameSystem>();
+        GameObject enemySpawnTextObject = GameObject.Find("EnemySpawnText");
+
+        if (enemySpawnTextObject != null)
+        {
+            enemySpawnText = enemySpawnTextObject.GetComponent<TextMeshProUGUI>();
+            enemySpawnText.gameObject.SetActive(false);
+        }
 
         SpawnEnemy();
     }
@@ -37,8 +47,17 @@ public class EnemyGenerator : MonoBehaviour
         Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
 
         FindObjectOfType<GameSystem>().AddEnemy(newEnemy);
-        
 
-        Debug.Log($"Day {gameSystem.currentDay}: 새로운 적 생성!");
+        StartCoroutine(ShowEnemySpawnMessage());
+    }
+
+    private IEnumerator ShowEnemySpawnMessage()
+    {
+        if (enemySpawnText != null)
+        {
+            enemySpawnText.gameObject.SetActive(true);  // 메시지 활성화
+            yield return new WaitForSeconds(2f);        // 2초 후
+            enemySpawnText.gameObject.SetActive(false); // 메시지 비활성화
+        }
     }
 }

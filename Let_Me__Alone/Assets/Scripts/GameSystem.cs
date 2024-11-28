@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameSystem : MonoBehaviour
 {
@@ -9,12 +10,22 @@ public class GameSystem : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
     //public  Enemy enemy;
     private bool isstateUpdateEnd = true;
+    private TextMeshProUGUI dayText;
     
 
     void Start()
     {
         player = FindObjectOfType<Player>();
         //enemy = FindObjectOfType<Enemy>();
+
+        GameObject dayTextObject = GameObject.Find("DayText");
+        if (dayTextObject != null)
+        {
+            dayText = dayTextObject.GetComponent<TextMeshProUGUI>();
+            UpdateDayText();
+        }
+
+
         Debug.Log($"게임 시작! 첫 번째 날: Day {currentDay}");
     }
 
@@ -29,6 +40,13 @@ public class GameSystem : MonoBehaviour
         Debug.Log($"Day {currentDay} 시작!");
 
         // 플레이어와 적 상태 업데이트
+
+        UpdateDayText();
+    }
+
+    private void UpdateDayText()
+    {
+        if (dayText != null) dayText.text = $"Day: {currentDay}";
     }
 
     private IEnumerator UpdateGameStateRoutine()
