@@ -5,7 +5,7 @@ using TMPro;
 
 public class GameSystem : MonoBehaviour
 {
-    [SerializeField] int GemSpawnDate = 20; // 잼 스폰 주기
+    [SerializeField] public int GemSpawnDate = 20; // 잼 스폰 주기
     [SerializeField] GameObject Gem1, Gem2, Gem3; // 잼 종류
     public int currentDay = 1; // 현재 게임 날짜
     public Player player; // 플레이어 객체 참조
@@ -55,7 +55,6 @@ public class GameSystem : MonoBehaviour
         // 맵 크기 가져오기
         int randomX = Random.Range(0, mapCreator.width);
         int randomY = Random.Range(0, mapCreator.height);
-        int randomItemType =  Random.Range(1, 4);
 
         // GEM 프리팹을 맵 좌표에 생성
         Vector3 spawnPosition = new Vector3(randomX, -randomY, 0); // Y축 음수 처리
@@ -68,6 +67,7 @@ public class GameSystem : MonoBehaviour
             activeGems.Add(gem); // 활성화된 GEM 목록에 추가
         }
 
+        FindObjectOfType<ItemCamera>().UpdateTargetGem(); // 카메라 업데이트
         Debug.Log($"GEM 생성: 위치 ({randomX}, {randomY})");
     }
 

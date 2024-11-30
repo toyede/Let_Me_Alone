@@ -19,10 +19,6 @@ public class Gem : MonoBehaviour
     private void Awake() 
     {
         gemManager = FindObjectOfType<GemManager>();
-    }
-
-    private void Start() 
-    {
         GiveWeights();
     }
 
@@ -79,5 +75,10 @@ public class Gem : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public int GetWeight()
+    {
+        return Gem_Weights;
     }
 }
