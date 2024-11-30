@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
         targetPosition = transform.position; // 초기 목표 위치는 현재 위치
 
         InitLineRenderer(); // 경로 표시를 위한 라인 렌더러 초기화
+        UpdatePathLine(); // 이동 경로를 시각적으로 업데이트
     }
 
     private void InitLineRenderer()
@@ -85,8 +86,6 @@ public class Enemy : MonoBehaviour
             currentX = nextX;
             currentY = nextY;
             Debug.Log($"적 이동 시작: {daysToWait}일 후 이동 예정");
-
-            UpdatePathLine(); // 이동 경로를 시각적으로 업데이트
         }
     }
 
@@ -97,6 +96,8 @@ public class Enemy : MonoBehaviour
         {
             transform.position = targetPosition; // 적의 위치를 목표 위치로 업데이트
             isMoving = false; // 이동 종료
+
+            UpdatePathLine(); // 이동 경로를 시각적으로 업데이트
 
             Debug.Log($"적 이동 완료: 현재 위치 ({currentX}, {currentY})");
 
