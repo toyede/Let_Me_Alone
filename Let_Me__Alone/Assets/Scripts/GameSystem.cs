@@ -14,7 +14,7 @@ public class GameSystem : MonoBehaviour
     private TextMeshProUGUI dayText; // 현재 날짜를 표시할 UI 텍스트
     private GemManager gemManager;
     private MapCreator mapCreator;
-    public List<Gem> activeGems = new List<Gem>(); // 현재 활성화된 GEM 목록
+    [SerializeField] public List<Gem> activeGems = new List<Gem>(); // 현재 활성화된 GEM 목록
 
     void Start()
     {
@@ -44,6 +44,9 @@ public class GameSystem : MonoBehaviour
 
         UpdateDayText(); // 날짜 UI 갱신
 
+        // null 객체 제거
+        CleanUpActiveGems();
+
         if(currentDay % GemSpawnDate == 0)
         {
             SpawnGem();
@@ -67,8 +70,14 @@ public class GameSystem : MonoBehaviour
             activeGems.Add(gem); // 활성화된 GEM 목록에 추가
         }
 
-        FindObjectOfType<ItemCamera>().UpdateTargetGem(); // 카메라 업데이트
+        UpdateItemCameraTarget();
         Debug.Log($"GEM 생성: 위치 ({randomX}, {randomY})");
+    }
+
+    public void CleanUpActiveGems()
+    {
+        activeGems.RemoveAll(gem => gem == null); // Null 객체 제거
+        Debug.Log($"현재 활성화된 GEM 개수: {activeGems.Count}");
     }
 
     private GameObject GetRandomGemPrefab()
@@ -77,6 +86,30 @@ public class GameSystem : MonoBehaviour
         if (random == 1) return Gem1;
         if (random == 2) return Gem2;
         return Gem3;
+    }
+
+    public void UpdateItemCameraTarget()
+    {
+        // Null 값 제거
+        activeGems.RemoveAll(gem => gem == null);
+
+        if (activeGems.Count == 0)
+        {
+            Debug.Log("활성화된 GEM이 없습니다. 카메라가 플레이어를 추적합니다.");
+            FindObjectOfType<ItemCamera>().SetFollowTargetToPlayer();
+            return;
+        }
+
+        // QuickSort로 GEM 정렬
+        QuickSortUtility.Sort(activeGems, 0, activeGems.Count - 1);
+
+        // 가장 높은 가중치의 GEM 선택
+        Gem highestWeightGem = activeGems[0];
+        if (highestWeightGem != null)
+        {
+            FindObjectOfType<ItemCamera>().SetFollowTarget(highestWeightGem.transform);
+            Debug.Log($"카메라가 최고 가중치 GEM ({highestWeightGem.GetWeight()})을 추적하도록 설정되었습니다.");
+        }
     }
 
     private void UpdateDayText()

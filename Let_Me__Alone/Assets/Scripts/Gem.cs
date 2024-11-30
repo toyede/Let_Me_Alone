@@ -14,11 +14,14 @@ public class Gem : MonoBehaviour
 
     [SerializeField] private PickUpType pickUpType; // 아이템 유형
     private GemManager gemManager;
+    private GameSystem gameSystem;
+    public bool istouched = false;
     [SerializeField] private int Gem_Weights = 0;
 
     private void Awake() 
     {
         gemManager = FindObjectOfType<GemManager>();
+        gameSystem = FindObjectOfType<GameSystem>();
         GiveWeights();
     }
 
@@ -29,7 +32,21 @@ public class Gem : MonoBehaviour
         {
             Debug.Log("닿았음");
             DetectPickUpType();
-            Destroy(gameObject);
+
+            // GameSystem에서 activeGems 리스트에서 제거
+            if (gameSystem != null)
+            {
+                gameSystem.activeGems.Remove(this);
+            }
+
+            Destroy(gameObject); // GEM 파괴
+
+            // QuickSort 재적용 및 카메라 업데이트
+            if (gameSystem != null)
+            {
+                // 정렬 후 카메라 업데이트
+                gameSystem.UpdateItemCameraTarget();
+            }
         }
     }
 

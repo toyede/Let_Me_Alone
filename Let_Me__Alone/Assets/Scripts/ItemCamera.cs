@@ -4,8 +4,8 @@ using Cinemachine;
 public class ItemCamera : MonoBehaviour
 {
     public CinemachineVirtualCamera virtualCamera;
-    private GameSystem gameSystem;
     private Player player;
+    private GameSystem gameSystem;
 
     void Start()
     {
@@ -13,21 +13,20 @@ public class ItemCamera : MonoBehaviour
         gameSystem = FindObjectOfType<GameSystem>();
     }
 
-    public void UpdateTargetGem()
+    public void SetFollowTarget(Transform target)
     {
-        if (gameSystem.activeGems.Count == 0) return;
-
-        // GEM 리스트 Quick Sort
-        QuickSortUtility.Sort(gameSystem.activeGems, 0, gameSystem.activeGems.Count - 1);
-
-        // 가장 높은 가중치의 GEM 선택
-        Gem highestWeightGem = gameSystem.activeGems[0];
-        virtualCamera.Follow = highestWeightGem.transform; // 카메라가 해당 GEM을 추적
-        virtualCamera.LookAt = highestWeightGem.transform;
-
-        Debug.Log($"ItemCamera: 최고 가중치 GEM 추적 시작 - {highestWeightGem.GetWeight()}");
+        virtualCamera.Follow = target;
+        virtualCamera.LookAt = target;
+        Debug.Log($"ItemCamera: 카메라가 새로운 대상 {target.name}을 추적합니다.");
     }
-    
+
+    public void SetFollowTargetToPlayer()
+    {
+        virtualCamera.Follow = player.transform;
+        virtualCamera.LookAt = player.transform;
+        Debug.Log("ItemCamera: 카메라가 플레이어를 추적합니다.");
+    }
+
     private void Update() 
     {
         if (gameSystem.currentDay < gameSystem.GemSpawnDate)
