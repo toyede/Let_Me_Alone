@@ -5,15 +5,22 @@ using TMPro;
 
 public class GameSystem : MonoBehaviour
 {
+    [SerializeField] int GemSpawnDate = 20; // 잼 스폰 주기
+    [SerializeField] GameObject Gem1, Gem2, Gem3; // 잼 종류
     public int currentDay = 1; // 현재 게임 날짜
     public Player player; // 플레이어 객체 참조
     public List<Enemy> enemies = new List<Enemy>(); // 게임 내 적 리스트
     public bool isStateUpdateEnd = true; // 상태 업데이트 완료 여부
     private TextMeshProUGUI dayText; // 현재 날짜를 표시할 UI 텍스트
+    private GemManager gemManager;
+    private MapCreator mapCreator;
+    public List<Gem> activeGems = new List<Gem>(); // 현재 활성화된 GEM 목록
 
     void Start()
     {
         player = FindObjectOfType<Player>(); // Player 객체 참조
+        gemManager = FindObjectOfType<GemManager>();
+        mapCreator = FindObjectOfType<MapCreator>();
 
         GameObject dayTextObject = GameObject.Find("DayText"); // DayText UI 오브젝트 찾기
         if (dayTextObject != null)
@@ -36,6 +43,40 @@ public class GameSystem : MonoBehaviour
         Debug.Log($"Day {currentDay} 시작!");
 
         UpdateDayText(); // 날짜 UI 갱신
+
+        if(currentDay % GemSpawnDate == 0)
+        {
+            SpawnGem();
+        }
+    }
+
+    private void SpawnGem()
+    {
+        // 맵 크기 가져오기
+        int randomX = Random.Range(0, mapCreator.width);
+        int randomY = Random.Range(0, mapCreator.height);
+        int randomItemType =  Random.Range(1, 4);
+
+        // GEM 프리팹을 맵 좌표에 생성
+        Vector3 spawnPosition = new Vector3(randomX, -randomY, 0); // Y축 음수 처리
+        GameObject gemPrefab = GetRandomGemPrefab(); // Gem1, Gem2, Gem3 중 하나 반환
+        GameObject gemObject = Instantiate(gemPrefab, spawnPosition, Quaternion.identity);
+
+        Gem gem = gemObject.GetComponent<Gem>();
+        if (gem != null)
+        {
+            activeGems.Add(gem); // 활성화된 GEM 목록에 추가
+        }
+
+        Debug.Log($"GEM 생성: 위치 ({randomX}, {randomY})");
+    }
+
+    private GameObject GetRandomGemPrefab()
+    {
+        int random = Random.Range(1, 4);
+        if (random == 1) return Gem1;
+        if (random == 2) return Gem2;
+        return Gem3;
     }
 
     private void UpdateDayText()
