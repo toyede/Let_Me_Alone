@@ -15,12 +15,12 @@ public static class QuickSortUtility
 
     private static int Partition(List<Gem> gems, int low, int high)
     {
-        int pivot = gems[high].GetWeight();
+        int pivot = gems[high].GetGemValue();
         int i = (low - 1);
 
         for (int j = low; j < high; j++)
         {
-            if (gems[j].GetWeight() >= pivot) // 높은 가중치 우선
+            if (gems[j].GetGemValue() >= pivot) // 높은 가중치 우선
             {
                 i++;
                 Swap(gems, i, j);

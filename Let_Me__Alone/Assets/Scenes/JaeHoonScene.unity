@@ -541,6 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596828b696065cb43856e1931c6edcdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameResultScene: EndingScene
   GemSpawnDate: 5
   Gem1: {fileID: 1942939882221021143, guid: 896a2faf6c53b894d823fdc9aa9f8307, type: 3}
   Gem2: {fileID: 763778188007982489, guid: 90e64aae2fa1d9e4da2dcb2261a28566, type: 3}

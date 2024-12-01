@@ -16,13 +16,13 @@ public class Gem : MonoBehaviour
     private GemManager gemManager;
     private GameSystem gameSystem;
     public bool istouched = false;
-    [SerializeField] private int Gem_Weights = 0;
+    [SerializeField] private int Gem_Value = 0;
 
     private void Awake() 
     {
         gemManager = FindObjectOfType<GemManager>();
         gameSystem = FindObjectOfType<GameSystem>();
-        GiveWeights();
+        GiveValue();
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -55,7 +55,6 @@ public class Gem : MonoBehaviour
         switch(pickUpType)
         {
             case PickUpType.Gem1:
-                // 1골드를 추가하고 UI를 업데이트하는 메서드
                 gemManager.UpdateCurrentGem(1);
                 break; 
 
@@ -72,21 +71,23 @@ public class Gem : MonoBehaviour
         }
     }
 
-    private void GiveWeights()
+    private void GiveValue()
     {
         switch(pickUpType)
         {
             case PickUpType.Gem1:
-                // 1골드를 추가하고 UI를 업데이트하는 메서드
-                Gem_Weights = 1;
+                // 젬 1은 단위무게당 가치 50
+                Gem_Value = 10;
                 break; 
 
             case PickUpType.Gem2:
-                Gem_Weights = 2;
+                // 젬 2은 단위무게당 가치 5
+                Gem_Value = 80;
                 break; 
 
             case PickUpType.Gem3:
-                Gem_Weights = 3;
+                // 젬 3은 단위무게당 가치 10
+                Gem_Value = 100;
                 break; 
 
             default:
@@ -94,8 +95,8 @@ public class Gem : MonoBehaviour
         }
     }
 
-    public int GetWeight()
+    public int GetGemValue()
     {
-        return Gem_Weights;
+        return Gem_Value;
     }
 }

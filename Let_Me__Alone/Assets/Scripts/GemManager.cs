@@ -18,6 +18,21 @@ public class GemManager : MonoBehaviour
     const string Gem2_AMOUNT_TEXT = "Gem2 Text ";
     const string Gem3_AMOUNT_TEXT = "Gem3 Text";
 
+    private static GemManager GMinstance;
+
+    void Awake()
+    {
+        if (GMinstance == null)
+        {
+            GMinstance = this;
+            DontDestroyOnLoad(gameObject); // 씬 전환 시 삭제되지 않음
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 방지
+        }
+    }
+
     public void UpdateCurrentGem(int type)
     {
         switch(type)

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameSystem : MonoBehaviour
 {
+    [SerializeField] private string GameResultScene; // 불러올 씬
     [SerializeField] public int GemSpawnDate = 20; // 잼 스폰 주기
     [SerializeField] GameObject Gem1, Gem2, Gem3; // 잼 종류
     public int currentDay = 1; // 현재 게임 날짜
@@ -15,6 +17,22 @@ public class GameSystem : MonoBehaviour
     private GemManager gemManager;
     private MapCreator mapCreator;
     [SerializeField] public List<Gem> activeGems = new List<Gem>(); // 현재 활성화된 GEM 목록
+    private float waitRoLoadTime = 1f; // 씬 불러올때 시간 얼마나 줄것인지
+
+    private static GameSystem gameSystem;
+
+    void Awake()
+    {
+        if (gameSystem == null)
+        {
+            gameSystem = this;
+            DontDestroyOnLoad(gameObject); // 씬 전환 시 삭제되지 않음
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 방지
+        }
+    }
 
     void Start()
     {
@@ -108,7 +126,7 @@ public class GameSystem : MonoBehaviour
         if (highestWeightGem != null)
         {
             FindObjectOfType<ItemCamera>().SetFollowTarget(highestWeightGem.transform);
-            Debug.Log($"카메라가 최고 가중치 GEM ({highestWeightGem.GetWeight()})을 추적하도록 설정되었습니다.");
+            Debug.Log($"카메라가 최고 가중치 GEM ({highestWeightGem.GetGemValue()})을 추적하도록 설정되었습니다.");
         }
     }
 
@@ -133,7 +151,7 @@ public class GameSystem : MonoBehaviour
         yield return new WaitForSeconds(0.2f); // 0.2초 대기
         isStateUpdateEnd = true; // 상태 업데이트 완료
     }
-
+    
     public void EndGame()
     {
         Debug.Log("게임 종료! 적이 플레이어를 잡았습니다.");
@@ -141,7 +159,7 @@ public class GameSystem : MonoBehaviour
         {
             Destroy(player.gameObject); // 플레이어 객체 삭제
         }
-        Time.timeScale = 0; // 게임 정지
+        SceneManager.LoadScene(GameResultScene); // 씬 불러오기
     }
 
     void Update()
