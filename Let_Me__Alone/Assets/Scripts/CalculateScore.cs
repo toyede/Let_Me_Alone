@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CalculateScore : MonoBehaviour
 {
-    public int targetAmount = 500; // 계산할 목표 금액 (거스름돈)
+    public int targetAmount = 400; // 계산할 목표 금액 (거스름돈)
     private int[] gemValues = { 10, 80, 100 }; // Gem의 가치
     private string[] gemNames = { "Gem1", "Gem2", "Gem3" }; // Gem 이름
     private int currentFullGemsNum = 0;
