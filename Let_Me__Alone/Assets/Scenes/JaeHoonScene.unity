@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ConfineMode: 0
   m_BoundingVolume: {fileID: 0}
-  m_BoundingShape2D: {fileID: 0}
+  m_BoundingShape2D: {fileID: 1661156015}
   m_ConfineScreenEdges: 1
   m_Damping: 0
 --- !u!114 &57438024
@@ -831,9 +831,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b98775d456de704d9043023e9104a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VirtualCamera: {fileID: 0}
-  zoomInSize: 1.8
-  zoomOutSize: 3.5
+  VirtualCamera: {fileID: 57438024}
+  zoomInSize: 1.5
+  zoomOutSize: 2.6
   zoomSpeed: 2
 --- !u!4 &987842210
 Transform:
@@ -1742,7 +1742,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -1.4993, y: 1.4685314}
+    - - {x: -1.1050112, y: 1.5227296}
+      - {x: -1.5085304, y: 1.4962223}
+      - {x: -1.5082788, y: 1.0380872}
       - {x: -1.5132942, y: 0.3714879}
       - {x: -1.4936128, y: -6.4313936}
       - {x: 10.45818, y: -6.4313946}
