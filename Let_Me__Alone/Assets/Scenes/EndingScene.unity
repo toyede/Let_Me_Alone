@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6ee32d59c2a3e4bbd3d73fe06d8f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAmount: 500
+  targetAmount: 400
   isClear: 1
 --- !u!4 &1798312489
 Transform:

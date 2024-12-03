@@ -14,15 +14,15 @@ public class CalculateScore : MonoBehaviour
     
     void Awake()
     {
-        gemManager = FindObjectOfType<GemManager>();
         // GemManager를 통해 현재 사용 가능한 Gem 개수 가져오기
+        gemManager = FindObjectOfType<GemManager>();
         currentFullGemsNum = gemManager.currentGem1 + gemManager.currentGem2 + gemManager.currentGem3;
 
         if (gemManager != null)
         {
             Debug.Log($"현재 Gem 개수: Gem1={gemManager.currentGem1}, Gem2={gemManager.currentGem2}, Gem3={gemManager.currentGem3}");
 
-            // DP 알고리즘으로 최소 Gem 조합 계산
+            // DP 동전 알고리즘 (거스름돈 targetAmount, gem의 액면 gemvalues개, 사용가능한 각 동전 개수)
             var result = CalculateMinimumGems(targetAmount, gemValues, new int[] 
             {
                 gemManager.currentGem1, // 사용 가능한 Gem1 개수
@@ -51,7 +51,7 @@ public class CalculateScore : MonoBehaviour
     }
 
     // DP 알고리즘: 최소 Gem 조합 계산
-    private int[] CalculateMinimumGems(int amount, int[] values, int[] available)
+    private int[] CalculateMinimumGems(int amount, int[] values, int[] available) // 사용가능한 Gem 개수
     {
         int n = values.Length; // Gem 종류 개수
         int[] dp = new int[amount + 1]; // dp[i]: i원을 구성하는 최소 Gem 개수
@@ -60,22 +60,22 @@ public class CalculateScore : MonoBehaviour
         // DP 테이블 초기화
         for (int i = 0; i <= amount; i++)
         {
-            dp[i] = int.MaxValue; // 초기값: 도달 불가능한 금액
+            dp[i] = int.MaxValue; // 초기값 무한대
             gemUsed[i] = new int[n]; // Gem 사용 배열 초기화
         }
         dp[0] = 0; // 0원을 구성하는 데 필요한 Gem은 0개
 
         // DP 알고리즘 수행
-        for (int i = 0; i <= amount; i++)
+        for (int i = 0; i <= amount; i++) // 도달 불가능한 금액은 스킵해도 되도록 만드는 반복문
         {
-            if (dp[i] == int.MaxValue) continue; // 도달 불가능한 금액은 스킵
+            if (dp[i] == int.MaxValue) continue; // 맨처음 0은 여기 안걸림
 
             for (int j = 0; j < n; j++) // 모든 Gem 타입에 대해 반복
             {
-                // Gem을 추가했을 때 금액 초과 또는 사용 가능 개수 초과 여부 확인
-                if (i + values[j] <= amount && gemUsed[i][j] < available[j])
+                if (i + values[j] <= amount && gemUsed[i][j] < available[j]) 
+                // Gem을 추가했을때 금액 초과? 0(다른 잼 계산 아직 안됨) + 10 <= 40 && i원을 내야 할 때 쓴 10원 개수 < 사용가능 10원 개수
                 {
-                    // 현재 dp[i + values[j]]보다 적은 Gem 개수로 구성 가능하다면 업데이트
+                    // 기존 dp[i + values[j]]보다 적은 Gem 개수로 구성 가능하다면 업데이트
                     if (dp[i] + 1 < dp[i + values[j]])
                     {
                         dp[i + values[j]] = dp[i] + 1;

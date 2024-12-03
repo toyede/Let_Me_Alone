@@ -85,7 +85,7 @@ public class GameSystem : MonoBehaviour
         Gem gem = gemObject.GetComponent<Gem>();
         if (gem != null)
         {
-            activeGems.Add(gem); // 활성화된 GEM 목록에 추가
+            activeGems.Insert(0, gem); // 활성화된 GEM 목록에 추가
         }
 
         UpdateItemCameraTarget();
@@ -106,7 +106,7 @@ public class GameSystem : MonoBehaviour
         return Gem3;
     }
 
-    public void UpdateItemCameraTarget()
+    public void UpdateItemCameraTarget() // 활성화된 잼 리스트에서 null값을 제거하고 카메라 바라보는 잼 위치 재조정
     {
         // Null 값 제거
         activeGems.RemoveAll(gem => gem == null);
@@ -119,7 +119,7 @@ public class GameSystem : MonoBehaviour
         }
 
         // QuickSort로 GEM 정렬
-        QuickSortUtility.Sort(activeGems, 0, activeGems.Count - 1);
+        SortUtility.Sort(activeGems); // 인수 전달: 활성화된 잼, 
 
         // 가장 높은 가중치의 GEM 선택
         Gem highestWeightGem = activeGems[0];
