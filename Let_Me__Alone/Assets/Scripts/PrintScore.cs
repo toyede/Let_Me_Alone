@@ -65,12 +65,12 @@ public class PrintScore : MonoBehaviour
         }
 
         // 텍스트 업데이트
-        if (calculateScore != null)// && gameSystem != null)
+        if (calculateScore != null && gameSystem != null)
         {
             Debug.Log(calculateScore.isClear);
             GameResultText.text = calculateScore.isClear ? "Game Clear" : "Game Over";
 
-            resultGemNum = calculateScore.resultGemNum;
+            resultGemNum = calculateScore.GetResultGemNum();
             ResultGemText.text = $"Result Gem: {resultGemNum:D2}";
 
             surviveDay = gameSystem.currentDay;

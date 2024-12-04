@@ -3,96 +3,120 @@ using UnityEngine;
 
 public class CalculateScore : MonoBehaviour
 {
-    public int targetAmount = 400; // 목표 금액
-    private int[] gemValues = { 100, 80, 10 }; // Gem의 가치 (높은 순)
-    private string[] gemNames = { "Gem3", "Gem2", "Gem1" }; // Gem 이름
-
-    private int currentFullGemsNum = 0; // 플레이어가 게임에서 먹은 Gem 개수
-    private int optimizedGemsNum = 0; // 목표 금액을 달성하기 위해 사용된 Gem의 총 개수
-    public int resultGemNum = 0; // 남은 Gem 개수 (currentFullGemsNum - optimizedGemsNum)한 값
-
+    public int targetAmount = 400; // 계산할 목표 금액 (거스름돈)
+    private int[] gemValues = { 10, 80, 100 }; // Gem의 가치
+    private string[] gemNames = { "Gem1", "Gem2", "Gem3" }; // Gem 이름
+    private int currentFullGemsNum = 0;
+    private int optimizedGemsNum = 0;
+    private int resultGemNum = 0;
     [SerializeField] public bool isClear = true;
     GemManager gemManager;
-
+    
     void Awake()
     {
         gemManager = FindObjectOfType<GemManager>();
-        currentFullGemsNum = gemManager.currentGem3 + gemManager.currentGem2 + gemManager.currentGem1; // Gem 총 개수
+        // GemManager를 통해 현재 사용 가능한 Gem 개수 가져오기
+        currentFullGemsNum = gemManager.currentGem1 + gemManager.currentGem2 + gemManager.currentGem3;
+
         if (gemManager != null)
         {
-            Debug.Log($"현재 Gem 개수: Gem3={gemManager.currentGem3}, Gem2={gemManager.currentGem2}, Gem1={gemManager.currentGem1}");
+            Debug.Log($"현재 Gem 개수: Gem1={gemManager.currentGem1}, Gem2={gemManager.currentGem2}, Gem3={gemManager.currentGem3}");
 
-            // 동전 탐욕 알고리즘: 목표 금액, 잼 가치, 사용가능 Gem 개수를 인수로 넘겨줌
-            var result = CoinGreedy(targetAmount, gemValues, new int[]
+            // DP 알고리즘으로 최소 Gem 조합 계산
+            var result = CalculateMinimumGems(targetAmount, gemValues, new int[] 
             {
-                gemManager.currentGem3, // 사용 가능한 Gem1 개수
+                gemManager.currentGem1, // 사용 가능한 Gem1 개수
                 gemManager.currentGem2, // 사용 가능한 Gem2 개수
-                gemManager.currentGem1  // 사용 가능한 Gem3 개수
+                gemManager.currentGem3  // 사용 가능한 Gem3 개수
             });
 
+            // 결과 출력
             if (result != null)
             {
-                // 결과 출력
                 Debug.Log($"거스름돈 {targetAmount}원을 구성하는 최소 Gem 조합:");
-
                 for (int i = 0; i < result.Length; i++)
                 {
-                    Debug.Log($"{gemNames[i]}: {result[i]}개"); // 사용된 각 Gem 타입 개수 출력
-                    optimizedGemsNum += result[i]; // 총 사용된 Gem 개수 계산
+                    Debug.Log($"{gemNames[i]}: {result[i]}개");
+                    optimizedGemsNum += result[i];
                 }
-                
                 Debug.Log($"총 {optimizedGemsNum}개");
-                resultGemNum = currentFullGemsNum - optimizedGemsNum;
             }
-
             else
             {
-                // 목표 금액 달성 실패 시 처리
                 isClear = false;
                 optimizedGemsNum = 0;
+                Debug.Log("거스름돈을 구성할 수 없습니다.");
             }
         }
     }
 
-    private int[] CoinGreedy(int amount, int[] values, int[] available)
+    // DP 알고리즘: 최소 Gem 조합 계산
+    private int[] CalculateMinimumGems(int amount, int[] values, int[] available)
     {
-        int n = values.Length; // Gem 종류 개수 (3)
-        int[] gemUsed = new int[n]; // 각 Gem 별 얼마나 썼는지 넣어놓을 변수
-        int remainingAmount = amount; // 달성해야 할 남은 금액
+        int n = values.Length; // Gem 종류 개수
+        int[] dp = new int[amount + 1]; // dp[i]: i원을 구성하는 최소 Gem 개수
+        int[][] gemUsed = new int[amount + 1][]; // gemUsed[i]: i원을 구성하기 위해 사용된 Gem 조합
 
-        // 가치가 높은 것부터 선택
-        for (int i = 0; i < n; i++)
+        // DP 테이블 초기화
+        for (int i = 0; i <= amount; i++)
         {
-            // 해당 동전을 추가하면 남은 금액에서 초과되지는 않는지, 사용 가능 개수가 0 이상인지 검사
-            while (remainingAmount >= values[i] && available[i] > 0) // i번째 동전
-            {
-                gemUsed[i]++;              // 현재 Gem 타입 사용 개수 증가
-                remainingAmount -= values[i]; // 남은 금액에서 Gem 가치 차감
-                available[i]--;            // 사용 가능한 Gem 개수 감소
-            }
+            dp[i] = int.MaxValue; // 초기값: 도달 불가능한 금액
+            gemUsed[i] = new int[n]; // Gem 사용 배열 초기화
         }
+        dp[0] = 0; // 0원을 구성하는 데 필요한 Gem은 0개
 
-        // 갚아야 할 돈이 있는데 남는 보석도 있으면 써야함 
-        if(remainingAmount > 0)
+        // DP 알고리즘 수행
+        for (int i = 0; i <= amount; i++)
         {
-            for (int i = 0; i < n; i++)
+            if (dp[i] == int.MaxValue) continue; // 도달 불가능한 금액은 스킵
+
+            for (int j = 0; j < n; j++) // 모든 Gem 타입에 대해 반복
             {
-                while (remainingAmount > 0 && available[i] > 0)
+                // Gem을 추가했을 때 금액 초과 또는 사용 가능 개수 초과 여부 확인
+                if (i + values[j] <= amount && gemUsed[i][j] < available[j])
                 {
-                    gemUsed[i]++;              // 현재 Gem 타입 사용 개수 증가
-                    remainingAmount -= values[i]; // 남은 금액에서 Gem 가치 차감
-                    available[i]--;            // 사용 가능한 Gem 개수 감소
-                    Debug.Log($"{remainingAmount} 남은 돈");
+                    // 현재 dp[i + values[j]]보다 적은 Gem 개수로 구성 가능하다면 업데이트
+                    if (dp[i] + 1 < dp[i + values[j]])
+                    {
+                        dp[i + values[j]] = dp[i] + 1;
+
+                        // 기존 Gem 사용 배열 복사
+                        for (int k = 0; k < n; k++)
+                        {
+                            gemUsed[i + values[j]][k] = gemUsed[i][k];
+                        }
+                        // 현재 Gem 타입 사용 개수 증가
+                        gemUsed[i + values[j]][j]++;
+                    }
                 }
             }
         }
 
-        // 남는 돈도 없고 남은 금액이 0이 아니라면 목표 금액 달성이 불가능
-        if (remainingAmount > 0)
+        // 목표 금액을 구성할 수 없는 경우 null 반환
+        if (dp[amount] == int.MaxValue)
         {
-            return null; // 실패를 나타내기 위해 null 반환
+            Debug.Log("DP 결과: 목표 금액 구성 불가능");
+            return null;
         }
 
-        return gemUsed; // 사용된 Gem 개수 배열 반환
+        // 목표 금액을 구성하는 Gem 조합 반환
+        return gemUsed[amount];
+    }
+
+    public int GetResultGemNum()
+    {
+        if(optimizedGemsNum != 0)
+        {
+            Debug.Log($"가지고 온 보석의 수는 {currentFullGemsNum}개");
+            Debug.Log($"최적의 보석 수는 {optimizedGemsNum}개");
+
+            resultGemNum = currentFullGemsNum - optimizedGemsNum;
+
+            Debug.Log($"남은 보석의 수는 {resultGemNum}개");
+
+            return resultGemNum;
+        }
+
+        return optimizedGemsNum;
     }
 }
