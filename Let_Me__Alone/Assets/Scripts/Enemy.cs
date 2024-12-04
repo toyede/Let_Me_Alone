@@ -25,8 +25,8 @@ public class Enemy : MonoBehaviour
         currentY = mapCreator.height - 1;
         transform.position = new Vector3(currentX, -currentY, 0);
 
-        targetX = player.GetCurrentX(); // 플레이어의 현재 X 좌표를 목표로 설정
-        targetY = player.GetCurrentY(); // 플레이어의 현재 Y 좌표를 목표로 설정
+        targetX = player.GetEffectiveX(); // 플레이어의 현재 X 좌표를 목표로 설정
+        targetY = player.GetEffectiveY(); // 플레이어의 현재 Y 좌표를 목표로 설정
         targetPosition = transform.position; // 초기 목표 위치는 현재 위치
 
         InitLineRenderer(); // 경로 표시를 위한 라인 렌더러 초기화
@@ -104,8 +104,8 @@ public class Enemy : MonoBehaviour
             // 목표 위치에 도달한 경우 새로운 목표 설정
             if (currentX == targetX && currentY == targetY)
             {
-                targetX = player.GetCurrentX(); // 플레이어의 현재 X 좌표를 목표로 설정
-                targetY = player.GetCurrentY(); // 플레이어의 현재 Y 좌표를 목표로 설정
+                targetX = player.GetEffectiveX(); // 플레이어의 현재 X 좌표를 목표로 설정
+                targetY = player.GetEffectiveY(); // 플레이어의 현재 Y 좌표를 목표로 설정
                 Debug.Log($"새 목표 설정: 플레이어 위치 ({targetX}, {targetY})");
 
                 UpdatePathLine(); // 경로 시각적으로 갱신

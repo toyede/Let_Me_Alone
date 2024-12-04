@@ -109,13 +109,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int GetCurrentX()
+    public int GetEffectiveX()
     {
-        return currentX; // 현재 X 좌표 반환
+        // 이동 중일 경우 현재 위치를 반환
+        if (isMoving)
+            return (int)(transform.position.x); // 실제 위치 기준
+        return currentX; // 이동 중이 아닐 경우 기본 좌표 반환
     }
-    public int GetCurrentY()
+
+    public int GetEffectiveY()
     {
-        return currentY; // 현재 Y 좌표 반환
+        if (isMoving)
+            return (int)(-transform.position.y);
+        return currentY;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
