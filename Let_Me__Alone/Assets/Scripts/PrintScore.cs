@@ -73,8 +73,8 @@ public class PrintScore : MonoBehaviour
             resultGemNum = calculateScore.GetResultGemNum();
             ResultGemText.text = $"Result Gem: {resultGemNum:D2}";
 
-            surviveDay = gameSystem.currentDay;
-            SurviveDayText.text = $"Survive Day: {surviveDay:D2}";
+            // surviveDay = gameSystem.currentDay;
+            // SurviveDayText.text = $"Survive Day: {surviveDay:D2}";
 
             Score = (surviveDay * 10) + (resultGemNum * 100);
             ScoreText.text = $"Score: {Score:D2}";
