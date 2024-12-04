@@ -1283,6 +1283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAmount: 400
+  resultGemNum: 0
   isClear: 1
 --- !u!4 &1798312489
 Transform:
