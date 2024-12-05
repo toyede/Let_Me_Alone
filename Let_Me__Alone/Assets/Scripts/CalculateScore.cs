@@ -66,9 +66,12 @@ public class CalculateScore : MonoBehaviour
             // 해당 동전을 추가하면 남은 금액에서 초과되지는 않는지, 사용 가능 개수가 0 이상인지 검사
             while (remainingAmount >= values[i] && available[i] > 0) // i번째 동전
             {
-                gemUsed[i]++;              // 현재 Gem 타입 사용 개수 증가
-                remainingAmount -= values[i]; // 남은 금액에서 Gem 가치 차감
-                available[i]--;            // 사용 가능한 Gem 개수 감소
+                if(i == 2 && values[i] * available[i] > remainingAmount) // ex) 100*2, 80*3, 10*2일떄 조건문 없으면 100원2개, 80원2개, 10원 2개 쓰고 80원 써버림
+                {
+                    gemUsed[i]++;              // 현재 Gem 타입 사용 개수 증가
+                    remainingAmount -= values[i]; // 남은 금액에서 Gem 가치 차감
+                    available[i]--;            // 사용 가능한 Gem 개수 감소
+                }
             }
         }
 
